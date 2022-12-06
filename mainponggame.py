@@ -8,6 +8,7 @@ Created on Mon Dec  5 17:18:23 2022
 
 import pygame 
 from paddle import Paddle
+from ball import Ball
 
 pygame.init()
 
@@ -32,6 +33,10 @@ paddle_1.rect.y = 200
 paddle_2 = Paddle(object_color, 10, 100) #bg_color)
 paddle_2.rect.x = 870
 paddle_2.rect.y = 200
+
+ball = Ball(object_color, 10, 10)
+ball.rect.x = 345
+ball.rect.y = 195
 
 # List of sprites (game objects)
 all_sprites = pygame.sprite.Group()
@@ -66,7 +71,17 @@ while game_on:
     # Game Logic.
     all_sprites.update()
     
-    # Drawing Code.
+    # Check if the ball is bouncing against any wall (including paddles)
+    if ball.rect.x >= 890:
+        ball.velocity[0] = -ball.velocity[0]
+    if ball.rect.x <= 0:
+        ball.velocity[0] = -ball.velocity[0]
+    if ball.rect.y > 590:
+        ball.velocity[1] = -ball.velocity[1]
+    if ball.rect.y < 0:
+        ball.velocity[1] = ball.velocity[1]
+        
+        
     
     # Clearing screen to background color.
     board.fill(bg_color)
