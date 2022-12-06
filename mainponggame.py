@@ -47,6 +47,10 @@ all_sprites.add(ball)
 # Game loop until player exits.
 game_on = True
 
+# Initializing player scores to start at 0
+score1 = 0
+score2 = 0
+
 # Main Game Loop 
 while game_on: 
     # Gets events from the queue.
@@ -72,8 +76,10 @@ while game_on:
     
     # Check if the ball is bouncing against any wall (including paddles)
     if ball.rect.x >= 890:
+        score1 += 1
         ball.velocity[0] = -ball.velocity[0]
     if ball.rect.x <= 0:
+        score2 += 1
         ball.velocity[0] = -ball.velocity[0]
     if ball.rect.y > 590:
         ball.velocity[1] = -ball.velocity[1]
@@ -92,6 +98,13 @@ while game_on:
     
     #Drawing the sprites (grame objects).
     all_sprites.draw(board)
+    
+    # Display scores
+    font = pygame.font.Font(None, 74)
+    text = font.render(str(score1), 1, object_color)
+    board.blit(text, (250, 10))
+    text = font.render(str(score2), 1, object_color)
+    board.blit(text, (420, 10))
     
     # Updating screen.
     pygame.display.flip()
