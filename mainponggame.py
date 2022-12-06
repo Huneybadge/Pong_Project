@@ -59,10 +59,10 @@ while game_on:
     board.fill(bg_color)
     
     # Drawing the net or half court.
-    pygame.draw.line(board, object_color, [449, 0], [449, 600], 5)
+    pygame.draw.line(board, object_color, [450, 0], [450, 600], 5)
     
     #Drawing the sprites (grame objects).
-    all_sprites.draw()
+    all_sprites.draw(board)
     
     # Updating screen.
     pygame.display.flip()
