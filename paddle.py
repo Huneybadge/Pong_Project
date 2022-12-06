@@ -1,20 +1,12 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-"""
-Created on Mon Dec  5 17:56:28 2022
-
-@author: patriciakolodziejski
-"""
-
 import pygame
 bg_color = (0, 0, 0) # Black
 
 class Paddle(pygame.sprite.Sprite):
     # This class makes the paddles for the game.
     
-    def __init(self, color, width, height): # bg_color):
+    def __init__(self, color, width, height): # bg_color):
         # Initializes the class. 
-        super().__init()
+        super().__init__()
         
         # Set up the paddle with the color and size.
         self.image = pygame.Surface([width, height])
@@ -26,3 +18,15 @@ class Paddle(pygame.sprite.Sprite):
         
         # Getting rectangle object.
         self.rect = self.image.get_rect()
+    
+    def moveUp(self, pixels):
+        self.rect.y -= pixels
+        # Check that you're not going too far off the screen
+        if self.rect.y < 0:
+            self.rect.y = 0
+        
+    def moveDown(self, pixels):
+        self.rect.y += pixels
+        # Again check that you're not going too far off the screen
+        if self.rect.y < 400:
+            self.rect.y = 400
