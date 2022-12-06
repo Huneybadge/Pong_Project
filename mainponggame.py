@@ -49,7 +49,20 @@ while game_on:
     for event in pygame.event.get():
         if event.type == pygame.QUIT: # User exits game.
             game_on = False #Exits loop.
+        elif event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_x: # Pressing the x key will quit the game
+                game_on = False
     
+    key = pygame.key.get_pressed()
+    if key[pygame.K_w]:
+        paddle_1.moveUp(5)
+    if key[pygame.K_s]:
+        paddle_1.moveDown(5)
+    if key[pygame.K_UP]:
+        paddle_2.moveUp(5)
+    if key[pygame.K_DOWN]:
+        paddle_2.moveDown(5)
+        
     # Game Logic.
     all_sprites.update()
     
