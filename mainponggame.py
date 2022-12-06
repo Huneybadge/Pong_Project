@@ -2,7 +2,6 @@
 # -*- coding: utf-8 -*-
 """
 Created on Mon Dec  5 17:18:23 2022
-
 @author: patriciakolodziejski
 """
 
@@ -44,7 +43,7 @@ all_sprites = pygame.sprite.Group()
 # Adding paddles
 all_sprites.add(paddle_1)
 all_sprites.add(paddle_2)
-
+all_sprites.add(ball)
 # Game loop until player exits.
 game_on = True
 
@@ -79,10 +78,12 @@ while game_on:
     if ball.rect.y > 590:
         ball.velocity[1] = -ball.velocity[1]
     if ball.rect.y < 0:
-        ball.velocity[1] = ball.velocity[1]
+        ball.velocity[1] = -ball.velocity[1]
         
+    # Hitting the paddle.
+    if pygame.sprite.collide_mask(ball, paddle_1) or pygame.sprite.collide_mask(ball, paddle_2):
+        ball.bounce()
         
-    
     # Clearing screen to background color.
     board.fill(bg_color)
     
