@@ -1,3 +1,11 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+Created on Mon Dec 12 13:37:11 2022
+
+@author: patriciakolodziejski
+"""
+
 import pygame 
 from paddle import Paddle
 from ball import Ball
@@ -59,6 +67,12 @@ infinite_game_on = False
 score_1 = 0
 score_2 = 0
 
+def button(mouse, x1, y1, x2, y2, length, height):
+    if x1 <= mouse[0] <= x2 and y1 <= mouse[1] <= y2:
+              pygame.draw.rect(board,color_light,[x1, y1, length, height])
+    else:
+        pygame.draw.rect(board,color_dark,[x1, y1, length, height])
+    
 
 #Adding button
 #button_1 = Button("Start", (450, 300), font=30, bg="navy", feedback="start game")
@@ -94,29 +108,19 @@ while main_game:
         TextRect.center = ((width/2),(height/2))
         board.blit(TextSurf, TextRect)
         
-        # Setting for the quit button.
+        # Making the quit button.
+        button(mouse, width/2 + 10, height/2 + 150, width/2 + 150, height/2 + 190, 140, 40)
+       
+        # Text for the quit button.
         smallfont = pygame.font.SysFont('Corbel', 35)  # Selecting the font.
         quit_button_text = smallfont.render('Quit', True , text_color) 
-        #Specifying the text.
-        
-        # Making the quit button.
-        if width/2+10 <= mouse[0] <= width/2 + 150 and height/2 + 150 <= \
-            mouse[1] <= height/2 + 190:
-              pygame.draw.rect(board,color_light,[width/2 + 10, \
-                                                  height/2 + 150, 140, 40])
-        else:
-            pygame.draw.rect(board, color_dark, [width/2 + 10, height/2 + 150,\
-                                               140, 40])
         board.blit(quit_button_text, (width/2 +50, height/2 + 155))
+        
+        # Making the start button.
+        button(mouse, width/2 - 150, height/2 + 150, width/2 - 10, height/2 + 150+ 40, 140, 40)
         
         # Specifying the text for the start button using same font as for quit.
         start_button_text = smallfont.render('Start' , True , text_color)
-        
-        # Making the start button.
-        if width/2 - 150 <= mouse[0] <= width/2 - 10 and height/2 + 150 <= mouse[1] <= height/2 + 150+ 40:
-              pygame.draw.rect(board,color_light,[width/2 - 150, height/2 + 150, 140, 40])
-        else:
-            pygame.draw.rect(board,color_dark,[width/2 - 150, height/2 + 150, 140, 40])
         board.blit(start_button_text, (width/2 - 150 + 40, height/2 + 150 + 5))
         
         # Updating the display.
@@ -148,18 +152,14 @@ while main_game:
         #Selecting font for the buttons.
         game_mode_font = pygame.font.SysFont('Corbel',35)
         
-        # Creating text for infinite game mode button.
-        infinite_game_text = smallfont.render('Infinite mode' , True , \
-                                              text_color)
+        # Creating the buttons.
+        button(mouse, width/2 - 100, height/2 - 100, width/2 + 100, height/2 - 60, 200, 40)
+        button(mouse, width/2 - 100, height/2 - 40, width/2 + 100, height/2, 200, 40)
         
-        # Creating the button.
-        if width/2 - 100 <= mouse[0] <= width/2 + 100 and height/2 - 100 <= \
-            mouse[1] <= height/2 - 60:
-            pygame.draw.rect(board,color_light,[width/2 - 100, height/2 - \
-                                                100, 200, 40])
-        else:
-            pygame.draw.rect(board,color_dark,[width/2 - 100, height/2 - 100, \
-                                               200, 40])
+        # Creating text for the buttons.
+        mode_font = pygame.font.SysFont('Corbel', 35)  # Selecting the font.
+        infinite_game_text = mode_font.render('Infinite mode' , True , text_color)
+        best_of_ten_text = mode_font.render('Best of 10', True, text_color)
         board.blit(infinite_game_text, (width/2 - 80, height/2 - 90))
         
         # Updating the display.
@@ -234,23 +234,14 @@ while main_game:
         smallfont = pygame.font.SysFont('Corbel', 35)
         
         # Making quit button.
+        button(mouse, width/2 + 20, 0, width/2+150, 40, 140, 40)
         quit_button_text = smallfont.render('Quit' , True, text_color)
-        if width/2 + 20 <= mouse[0] <= width/2+150 and 0 <= mouse[1] <= 40:
-            pygame.draw.rect(board,color_light,[width/2 + 20, 0, 140, 40])
-              
-        else:
-            pygame.draw.rect(board,color_dark,[width/2 + 20, 0, 140, 40])
-        board.blit(quit_button_text, (width/2 + 60, 0))
+        board.blit(quit_button_text, (width/2 + 60, 10))
         
         # Making change game mode button.
+        button(mouse, width/2 - 210, 0, width/2 - 10, 40, 200, 40)
         change_mode_text = smallfont.render('Change Mode' , True, text_color)
-        if width/2 - 210 <= mouse[0] <= width/2 - 10 and 0 <= mouse[1] <= 40:
-            pygame.draw.rect(board,color_light,[width/2 - 210, 0, 200, 40])
-              
-        else:
-            pygame.draw.rect(board,color_dark,[width/2 - 210, 0, 200, 40])
-        board.blit(change_mode_text, (width/2 - 210, 0))
-        
+        board.blit(change_mode_text, (width/2 - 200, 10))
         
         # Drawing the net or half court.
         pygame.draw.line(board, object_color, [450, 0], [450, 600], 5)
@@ -272,4 +263,3 @@ while main_game:
         clock.tick(60)
 
 
-pygame.quit()
