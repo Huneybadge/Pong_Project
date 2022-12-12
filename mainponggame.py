@@ -243,7 +243,7 @@ while main_game:
         board.blit(quit_button_text, (width/2 + 60, 0))
         
         # Making change game mode button.
-        change_mode_text = smallfont.render('Change Mode' , True , text_color)
+        change_mode_text = smallfont.render('Change Mode' , True, text_color)
         if width/2 - 210 <= mouse[0] <= width/2 - 10 and 0 <= mouse[1] <= 40:
             pygame.draw.rect(board,color_light,[width/2 - 210, 0, 200, 40])
               
