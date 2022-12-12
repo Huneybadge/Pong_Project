@@ -1,11 +1,3 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-"""
-Created on Tue Dec  6 14:28:55 2022
-
-@author: patriciakolodziejski
-"""
-
 import pygame 
 from random import randint 
 
@@ -22,7 +14,7 @@ class Ball(pygame.sprite.Sprite):
         # Setting the background.
         self.image = pygame.Surface([width, height])
         self.image.fill(bg_color)
-        self.image.set_color(bg_color)
+        self.image.set_colorkey(bg_color)
         
         #Drawing the ball as a rectangle and getting starting velocity
         pygame.draw.rect(self.image, color, [0, 0, width, height])
@@ -35,6 +27,6 @@ class Ball(pygame.sprite.Sprite):
         self.rect.x += self.velocity[0]
         self.rect.y += self.velocity[1]
         
-    def bound(self):
+    def bounce(self):
         self.velocity[0] = -self.velocity[0]
         self.velocity[1] = randint(-8, 8)
