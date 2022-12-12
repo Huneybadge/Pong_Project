@@ -156,7 +156,7 @@ while main_game:
                        height/2 + 20 <= mouse[1] <= height/2 + 60:
                        game_mode = False # Ending select mode.
                        infinite_game_on = False
-                       best_10_on = True
+                       best_10_on = False
                        speed_stack_on = True # Initializing speed stack mode.
                        
         # Breaking out of loop if quit.
