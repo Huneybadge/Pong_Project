@@ -1,11 +1,3 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-"""
-Created on Mon Dec 12 13:37:11 2022
-
-@author: patriciakolodziejski
-"""
-
 import pygame 
 from paddle import Paddle
 from ball import Ball
@@ -113,14 +105,14 @@ while main_game:
        
         # Text for the quit button.
         smallfont = pygame.font.SysFont('Corbel', 35)  # Selecting the font.
-        quit_button_text = smallfont.render('Quit', True , text_color) 
+        quit_button_text = smallfont.render('Quit', True, text_color) 
         board.blit(quit_button_text, (width/2 +50, height/2 + 155))
         
         # Making the start button.
         button(mouse, width/2 - 150, height/2 + 150, width/2 - 10, height/2 + 150+ 40, 140, 40)
         
         # Specifying the text for the start button using same font as for quit.
-        start_button_text = smallfont.render('Start' , True , text_color)
+        start_button_text = smallfont.render('Start', True, text_color)
         board.blit(start_button_text, (width/2 - 150 + 40, height/2 + 150 + 5))
         
         # Updating the display.
@@ -137,10 +129,11 @@ while main_game:
                    pygame.quit()
                    main_game = False
                elif event.type == pygame.MOUSEBUTTONDOWN: # Button click events.
-                   if width/2 - 100 <= mouse[0] <= width/2 + 100 and height/2 - 100\
-                       <= mouse[1] <= height/2 - 60: # Selecting infinite mode.
+                   if width/2 - 100 <= mouse[0] <= width/2 + 100 and \
+                       height/2 - 100 <= mouse[1] <= height/2 - 60: # Selecting infinite mode.
                        game_mode = False # Ending select mode.
                        infinite_game_on = True # Initilaizing infinite mode.
+               
                        
         # Breaking out of loop if quit.
         if main_game == False:
@@ -153,14 +146,18 @@ while main_game:
         game_mode_font = pygame.font.SysFont('Corbel',35)
         
         # Creating the buttons.
-        button(mouse, width/2 - 100, height/2 - 100, width/2 + 100, height/2 - 60, 200, 40)
-        button(mouse, width/2 - 100, height/2 - 40, width/2 + 100, height/2, 200, 40)
+        button(mouse, width/2 - 100, height/2 - 100, width/2 + 100, \
+               height/2 - 60, 200, 40) # Infinite mode
+        button(mouse, width/2 - 100, height/2 - 40, width/2 + 100, height/2, \
+               200, 40) # Best of 10 mode
+        button(mouse, width/2 - 100, height/2 + 20, width/2 + 100, height + \
+               60, 200, 40) # Stacking speed mode
         
         # Creating text for the buttons.
         mode_font = pygame.font.SysFont('Corbel', 35)  # Selecting the font.
-        infinite_game_text = mode_font.render('Infinite mode' , True , text_color)
+        infinite_game_text = mode_font.render('Infinite mode', True, text_color)
         best_of_ten_text = mode_font.render('Best of 10', True, text_color)
-        board.blit(infinite_game_text, (width/2 - 80, height/2 - 90))
+        board.blit(infinite_game_text, (width/2 - 90, height/2 - 90))
         
         # Updating the display.
         pygame.display.update()
@@ -261,5 +258,4 @@ while main_game:
         
         # Setting frames per second.
         clock.tick(60)
-
 
