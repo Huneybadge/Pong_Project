@@ -1,10 +1,3 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-"""
-Created on Mon Dec  5 17:18:23 2022
-@author: patriciakolodziejski
-"""
-
 import pygame 
 from paddle import Paddle
 from ball import Ball
@@ -220,7 +213,8 @@ while main_game:
             ball.velocity[1] = -ball.velocity[1]
             
         # Hitting the paddle.
-        if pygame.sprite.collide_mask(ball, paddle_1) or pygame.sprite.collide_mask(ball, paddle_2):
+        if pygame.sprite.collide_mask(ball, paddle_1) or \
+        pygame.sprite.collide_mask(ball, paddle_2): 
             ball.bounce()
             
         # Clearing screen to background color.
