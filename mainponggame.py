@@ -1,11 +1,3 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-"""
-Created on Mon Dec 12 13:37:11 2022
-
-@author: patriciakolodziejski
-"""
-
 import pygame 
 from paddle import Paddle
 from ball import Ball
