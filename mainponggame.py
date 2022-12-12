@@ -1,6 +1,6 @@
 import pygame 
 from paddle import Paddle
-from ball import Ball
+from ball import Ball, Speed_Ball
 #from button import Button
 
 
@@ -114,16 +114,25 @@ while main_game:
         
         # Defining the ball.
         ball = Ball(object_color, 10, 10)
+        ball2 = Speed_Ball(object_color, 10, 10)
         ball.rect.x = 345
+        ball2.rect.x = 300
         ball.rect.y = 195
+        ball2.rect.y = 300
         
         # List of sprites (game objects)
         all_sprites = pygame.sprite.Group()
+        all_sprites1 = pygame.sprite.Group()
+
         
         # Adding paddles
         all_sprites.add(paddle_1)
         all_sprites.add(paddle_2)
         all_sprites.add(ball)
+        all_sprites1.add(paddle_1)
+        all_sprites1.add(paddle_2)
+        all_sprites1.add(ball2)
+
         
         # Events for the game.
         for event in pygame.event.get():
@@ -136,11 +145,19 @@ while main_game:
                        game_mode = False # Ending select mode.
                        infinite_game_on = True # Initilaizing infinite mode.
                        best_10_on = False
+                       speed_stack_on = False
                    elif width/2 - 100 <= mouse[0] <= width/2 + 100 and \
                        height/2 - 40 <= mouse[1] <= height/2:
                        game_mode = False
                        infinite_game_on = True 
                        best_10_on = True
+                       speed_stack_on = False
+                   elif width/2 - 100 <= mouse[0] <= width/2 + 100 and \
+                       height/2 + 20 <= mouse[1] <= height/2 + 60:
+                       game_mode = False # Ending select mode.
+                       infinite_game_on = False
+                       best_10_on = True
+                       speed_stack_on = True # Initializing speed stack mode.
                        
         # Breaking out of loop if quit.
         if main_game == False:
@@ -157,6 +174,8 @@ while main_game:
                height/2 - 60, 200, 40)
         button(mouse, width/2 - 100, height/2 - 40, width/2 + 100, \
                height/2, 200, 40)
+        button(mouse, width/2 - 100, height/2 + 20, width/2 + 100, \
+               height/2 + 60, 200, 40)
         
         # Creating text for the buttons.
         mode_font = pygame.font.SysFont('Corbel', 35)  # Selecting the font.
@@ -166,6 +185,9 @@ while main_game:
         
         best_of_ten_text = mode_font.render('Best of 10', True, text_color)
         board.blit(best_of_ten_text, (width/2 - 70, height/2 - 30))
+        
+        speed_stack_text = mode_font.render('Speed stack', True, text_color)
+        board.blit(speed_stack_text, (width/2 - 85, height/2 + 30))
         
         
         # Updating the display.
@@ -280,6 +302,126 @@ while main_game:
                     player_text = win_font.render('Player 1 Wins!', 1, object_color)
                 else: 
                     player_text = win_font.render('Player 2 Wins!', 1, object_color)
+                board.blit(player_text, (width / 2 - 95, height / 2 - 10))
+
+        # Updating screen.
+        pygame.display.flip()
+        
+        # Setting frames per second.
+        clock.tick(60)
+
+    # Speed stack loop 
+    while speed_stack_on: 
+        
+        mouse = pygame.mouse.get_pos()
+        # Gets events from the queue.
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT: # User exits game.
+                pygame.quit() #Exits loop.
+                main_game = False
+            elif event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_x: # Pressing the x key will quit the game
+                    pygame.quit()
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                  
+                #if the mouse is clicked on the
+                # button the game is terminated
+                if width/2 + 10 <= mouse[0] <= width/2 + 150 and \
+                    0 <= mouse[1] <= 40:
+                    speed_stack_on = False
+                    main_game = False
+                    pygame.quit()
+                elif width/2 - 210 <= mouse[0] <= width/2 - 10 and 0 <= \
+                    mouse[1] <= 40:
+                    speed_stack_on = False
+                    game_mode = True
+            
+        # Breaking out of loop if quit.    
+        if main_game == False:
+            break
+        
+        # Establising key movements.
+        key = pygame.key.get_pressed()
+        if key[pygame.K_w]:
+            paddle_1.moveUp(10)
+        if key[pygame.K_s]:
+            paddle_1.moveDown(10)
+        if key[pygame.K_UP]:
+            paddle_2.moveUp(10)
+        if key[pygame.K_DOWN]:
+            paddle_2.moveDown(10)
+            
+        # Game Logic.
+        all_sprites1.update()
+        
+        # Check if the ball is bouncing against any wall (including paddles)
+        if ball2.rect.x >= 890:
+            score_1 += 1
+            ball2.velocity[0] = -ball2.velocity[0]
+        if ball2.rect.x <= 0:
+            score_2 += 1
+            ball2.velocity[0] = -ball2.velocity[0]
+        if ball2.rect.y > 590:
+            ball2.velocity[1] = -ball2.velocity[1]
+        if ball2.rect.y < 0:
+            ball2.velocity[1] = -ball2.velocity[1]
+            
+        # Hitting the paddle.
+        if pygame.sprite.collide_mask(ball2, paddle_1) or \
+        pygame.sprite.collide_mask(ball2, paddle_2): 
+            ball2.bounce()
+            
+        # Clearing screen to background color.
+        board.fill(bg_color)
+        
+        # Creating the font.
+        smallfont = pygame.font.SysFont('Corbel', 35)
+        
+        # Making quit button.
+        button(mouse, width/2 + 20, 0, width/2 + 150, 40, 140, 40)
+        quit_button_text = smallfont.render('Quit' , True, text_color)
+        board.blit(quit_button_text, (width/2 + 60, 10))
+        
+        # Making change game mode button.
+        button(mouse, width/2 - 210, 0, width/2 - 10, 40, 200, 40)
+        change_mode_text = smallfont.render('Change Mode' , True, text_color)
+        board.blit(change_mode_text, (width/2 - 210, 10))
+        
+        # Drawing the net or half court.
+        pygame.draw.line(board, object_color, [450, 0], [450, 600], 5)
+        
+        # Drawing the sprites (grame objects).
+        all_sprites1.draw(board)
+        
+        # Display scores
+        font = pygame.font.Font(None, 74)
+        text = font.render(str(score_1), 1, object_color)
+        board.blit(text, (100, 10))
+        text = font.render(str(score_2), 1, object_color)
+        board.blit(text, (800, 10))
+        
+        # Best of 10 mode
+        if best_10_on:
+            if score_1 == 10 or score_2 == 10:
+                ball2.velocity[0] = 0
+                ball2.velocity[1] = 0
+                ball2.rect.y = height/2
+                ball2.rect.x = width/2
+                win_font = pygame.font.SysFont('Corbel', 40)
+                pygame.draw.rect(board,color_light, [width/2 - 100, \
+                                                     height/2 - 20, 200, 40])
+                
+                # Changing 'Change Mode' Button to 'Play Again' button
+                button(mouse, width/2 - 210, 0, width/2 - 10, 40, 200, 40)
+                play_again_text = smallfont.render('Play Again' , True, \
+                                                   text_color)
+                board.blit(play_again_text, (width/2 - 180, 10))
+                if score_1 > score_2: 
+                    player_text = win_font.render('Player 1 Wins!', 1, \
+                                                  object_color)
+                else: 
+                    player_text = win_font.render('Player 2 Wins!', 1, \
+                                                  object_color)
                 board.blit(player_text, (width / 2 - 95, height / 2 - 10))
 
         # Updating screen.
