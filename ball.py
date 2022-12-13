@@ -55,7 +55,14 @@ class Speed_Ball(pygame.sprite.Sprite):
         self.rect.y += self.velocity[1]
         
     def bounce(self):
-        self.velocity[0] = -(self.velocity[0] + 5)
+        print('initial',self.velocity[0])
+        self.velocity[0] = -self.velocity[0]
+        if self.velocity[0] < 0:
+            self.velocity[0] = self.velocity[0] - 4
+            print('if neg',self.velocity[0])
+        elif self.velocity[0] > 0:
+            self.velocity[0] = self.velocity[0] + 4
+            print('if pos',self.velocity[0])
         self.velocity[1] = randint(-8, 8)
     
     # def reset(self):
