@@ -156,7 +156,7 @@ while main_game:
                        height/2 + 20 <= mouse[1] <= height/2 + 60:
                        game_mode = False # Ending select mode.
                        infinite_game_on = False
-                       best_10_on = False
+                       best_10_on = True
                        speed_stack_on = True # Initializing speed stack mode.
                        
         # Breaking out of loop if quit.
@@ -357,10 +357,10 @@ while main_game:
         # Check if the ball is bouncing against any wall (including paddles)
         if ball2.rect.x >= 890:
             score_1 += 1
-            ball2.velocity[0] = -ball2.velocity[0]
+            ball2.restart_gamep1()
         if ball2.rect.x <= 0:
             score_2 += 1
-            ball2.velocity[0] = -ball2.velocity[0]
+            ball2.restart_gamep2()
         if ball2.rect.y > 590:
             ball2.velocity[1] = -ball2.velocity[1]
         if ball2.rect.y < 0:
@@ -407,7 +407,7 @@ while main_game:
                 ball2.velocity[1] = 0
                 ball2.rect.y = height/2
                 ball2.rect.x = width/2
-                win_font = pygame.font.SysFont('Corbel', 40)
+                win_font = pygame.font.SysFont('Corbel', 35)
                 pygame.draw.rect(board,color_light, [width/2 - 100, \
                                                      height/2 - 20, 200, 40])
                 
