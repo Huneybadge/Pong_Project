@@ -45,7 +45,7 @@ class Speed_Ball(pygame.sprite.Sprite):
         
         # Drawing the ball as a rectangle and getting starting velocity
         pygame.draw.rect(self.image, color, [0, 0, width, height])
-        self.velocity = [4, randint(-3,3)]
+        self.velocity = [4, randint(-3, 3)]
         
         # Get the object with the dimensions of the image
         self.rect = self.image.get_rect()
@@ -55,17 +55,20 @@ class Speed_Ball(pygame.sprite.Sprite):
         self.rect.y += self.velocity[1]
         
     def bounce(self):
-        print('initial',self.velocity[0])
         self.velocity[0] = -self.velocity[0]
         if self.velocity[0] < 0:
-            self.velocity[0] = self.velocity[0] - 4
-            print('if neg',self.velocity[0])
+            self.velocity[0] = self.velocity[0] - 2
         elif self.velocity[0] > 0:
-            self.velocity[0] = self.velocity[0] + 4
-            print('if pos',self.velocity[0])
+            self.velocity[0] = self.velocity[0] + 2
         self.velocity[1] = randint(-8, 8)
     
-    # def reset(self):
-    #     self.velocity[0] = 0
-    #     self.velocity[1] = 0
+    def restart_gamep1(self):
+        self.rect.x = 600
+        self.rect.y = 300
+        self.velocity = [-4, randint(-3, 3)]
+    
+    def restart_gamep2(self):
+        self.rect.x = 300
+        self.rect.y = 300
+        self.velocity = [4, randint(-3, 3)]
         
