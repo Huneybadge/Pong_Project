@@ -291,7 +291,7 @@ while main_game:
                 ball.velocity[1] = 0
                 ball.rect.y = height / 2
                 ball.rect.x = width / 2
-                win_font = pygame.font.SysFont('Corbel', 40)
+                win_font = pygame.font.SysFont('Corbel', 35)
                 pygame.draw.rect(board,color_light, [width / 2 - 100, height / 2 - 20, 200, 40])
                 
                 # Changing 'Change Mode' Button to 'Play Again' button
@@ -357,6 +357,13 @@ while main_game:
         # Check if the ball is bouncing against any wall (including paddles)
         if ball2.rect.x >= 890:
             score_1 += 1
+            # ball2.velocity[0] = 0
+            # ball2.velocity[1] = 0
+            # ball2.rect.y = height/2
+            # ball2.rect.x = width/2
+            score_text = (smallfont.render('Player 1 Scored', True, \
+                                           object_color))
+            board.blit(score_text, (width/2 - 95, height/2 - 10))
             ball2.restart_gamep1()
         if ball2.rect.x <= 0:
             score_2 += 1
