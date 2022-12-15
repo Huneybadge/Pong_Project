@@ -357,17 +357,26 @@ while main_game:
         # Check if the ball is bouncing against any wall (including paddles)
         if ball2.rect.x >= 890:
             score_1 += 1
+            ball2.velocity[0] = 0
+            ball2.velocity[1] = 0
+            ball2.rect.y = height/2
+            ball2.rect.x = width/2
+
+            # score_text = (smallfont.render('Player 1 Scored', True, \
+            #                                object_color))
+            # board.blit(score_text, (width/2 - 95, height/2 - 10))
+            if key[pygame.K_p]:
+                ball2.restart_gamep1() # This is where it's not working
+                
+        if ball2.rect.x <= 0:
+            score_2 += 1
             # ball2.velocity[0] = 0
             # ball2.velocity[1] = 0
             # ball2.rect.y = height/2
             # ball2.rect.x = width/2
-            score_text = (smallfont.render('Player 1 Scored', True, \
-                                           object_color))
-            board.blit(score_text, (width/2 - 95, height/2 - 10))
-            ball2.restart_gamep1()
-        if ball2.rect.x <= 0:
-            score_2 += 1
-            ball2.restart_gamep2()
+            # if key[pygame.K_p]:
+            ball2.restart_gamep2() # This is what it was before. I made it
+            # reset whenever a player scored. from the ball class
         if ball2.rect.y > 590:
             ball2.velocity[1] = -ball2.velocity[1]
         if ball2.rect.y < 0:
