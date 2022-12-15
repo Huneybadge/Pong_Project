@@ -30,6 +30,16 @@ class Ball(pygame.sprite.Sprite):
     def bounce(self):
         self.velocity[0] = -self.velocity[0]
         self.velocity[1] = randint(-8, 8)
+    
+    def restart_gamep1(self):
+        self.rect.x = 450
+        self.rect.y = 300
+        self.velocity = [-4, randint(-3, 3)]
+    
+    def restart_gamep2(self):
+        self.rect.x = 450
+        self.rect.y = 300
+        self.velocity = [4, randint(-3, 3)]
 
 class Speed_Ball(pygame.sprite.Sprite):
     # This class makes the ball for the speed stack mode

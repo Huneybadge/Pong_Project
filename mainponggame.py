@@ -241,10 +241,24 @@ while main_game:
         # Check if the ball is bouncing against any wall (including paddles)
         if ball.rect.x >= 890:
             score_1 += 1
-            ball.velocity[0] = -ball.velocity[0]
+            # When the ball hits the wall rest.
+            ball.velocity[0] = 0
+            ball.velocity[1] = 0
+            ball.rect.y = height / 2
+            ball.rect.x = width / 2
+            # Keeping track of who scored last.
+            recent_score = 1
+            
         if ball.rect.x <= 0:
             score_2 += 1
-            ball.velocity[0] = -ball.velocity[0]
+            # When the ball hits the wall rest.
+            ball.velocity[0] = 0
+            ball.velocity[1] = 0
+            ball.rect.y = height/2
+            ball.rect.x = width/2
+            # Keeping track of who scored last.
+            recent_score = 2
+            
         if ball.rect.y > 590:
             ball.velocity[1] = -ball.velocity[1]
         if ball.rect.y < 0:
@@ -283,6 +297,23 @@ while main_game:
         board.blit(text, (100, 10))
         text = font.render(str(score_2), 1, object_color)
         board.blit(text, (800, 10))
+        
+        # Ball in reset mode due to scoring.
+        if ball.velocity[0] == 0 and ball.velocity[1] == 0:
+           if recent_score == 1: # If player 1 scores.
+               score_text_1 = smallfont.render('Player 1 Scored', True, object_color)
+               board.blit(score_text_1, (width / 4, height / 2))
+               pygame.display.update()
+               if key[pygame.K_p]: # Restarting the ball with 'p' key.
+                   ball.restart_gamep1() # This is where it's not working
+                   recent_score = 0
+           elif recent_score == 2: # If player 2 scores.
+               score_text_2 = smallfont.render('Player 2 Scored', True, object_color)
+               board.blit(score_text_2, ( width / 2 + 50, height / 2))
+               pygame.display.update()
+               if key[pygame.K_p]:  # Restarting the ball with 'p' key.
+                   ball.restart_gamep2()
+                   recent_score = 0
         
         # Best of 10 mode
         if best_10_on:
@@ -356,37 +387,29 @@ while main_game:
         # Check if the ball is bouncing against any wall (including paddles)
         if ball2.rect.x >= 890:
             score_1 += 1
+            # When the ball hits the wall rest.
             ball2.velocity[0] = 0
             ball2.velocity[1] = 0
             ball2.rect.y = height / 2
             ball2.rect.x = width / 2
+            # Keeping track of who scored last.
             recent_score = 1
-            #score_text = win_font.render('Player 1 Scores!', 1, object_color)
-            #score_width = width / 4
             
-        
-                
-                
         if ball2.rect.x <= 0:
             score_2 += 1
+            # When the ball hits the wall rest.
             ball2.velocity[0] = 0
             ball2.velocity[1] = 0
             ball2.rect.y = height/2
             ball2.rect.x = width/2
-            # if key[pygame.K_p]:
-            #ball2.restart_gamep2() # This is what it was before. I made it
-            # reset whenever a player scored. from the ball class
+            # Keeping track of who scored last.
             recent_score = 2
-            #score_text = win_font.render('Player 2 Scores!', 1, object_color)
-            #score_width = 3 * width / 4
             
         if ball2.rect.y > 590:
             ball2.velocity[1] = -ball2.velocity[1]
         if ball2.rect.y < 0:
             ball2.velocity[1] = -ball2.velocity[1]
         
-        
-       
         # Hitting the paddle.
         if pygame.sprite.collide_mask(ball2, paddle_1) or \
         pygame.sprite.collide_mask(ball2, paddle_2): 
@@ -421,25 +444,23 @@ while main_game:
         text = font.render(str(score_2), 1, object_color)
         board.blit(text, (800, 10))
         
+        # Ball in reset mode due to scoring.
         if ball2.velocity[0] == 0 and ball2.velocity[1] == 0:
-           #board.blit(score_text, (score_width, height / 2))
-           if recent_score == 1:
+           if recent_score == 1: # If player 1 scores.
                score_text_1 = smallfont.render('Player 1 Scored', True, object_color)
                board.blit(score_text_1, (width / 4, height / 2))
                pygame.display.update()
-               if key[pygame.K_p]:
+               if key[pygame.K_p]: # Restarting the ball with 'p' key.
                    ball2.restart_gamep1() # This is where it's not working
                    recent_score = 0
-           elif recent_score == 2:
-               score_text_2 = smallfont.render('Player 2 Scored', True, \
-                                           object_color)
+           elif recent_score == 2: # If player 2 scores.
+               score_text_2 = smallfont.render('Player 2 Scored', True, object_color)
                board.blit(score_text_2, ( width / 2 + 50, height / 2))
                pygame.display.update()
-               if key[pygame.K_p]:
+               if key[pygame.K_p]:  # Restarting the ball with 'p' key.
                    ball2.restart_gamep2()
                    recent_score = 0
                         
-        
         # Best of 10 mode
         if best_10_on:
             if score_1 == 10 or score_2 == 10:
