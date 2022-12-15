@@ -323,7 +323,6 @@ while main_game:
                 if event.key == pygame.K_x: # Pressing the x key will quit the game
                     pygame.quit()
             elif event.type == pygame.MOUSEBUTTONDOWN:
-                  
                 #if the mouse is clicked on the
                 # button the game is terminated
                 if width/2 + 10 <= mouse[0] <= width/2 + 150 and \
@@ -359,29 +358,35 @@ while main_game:
             score_1 += 1
             ball2.velocity[0] = 0
             ball2.velocity[1] = 0
-            ball2.rect.y = height/2
-            ball2.rect.x = width/2
-
-            # score_text = (smallfont.render('Player 1 Scored', True, \
-            #                                object_color))
-            # board.blit(score_text, (width/2 - 95, height/2 - 10))
-            if key[pygame.K_p]:
-                ball2.restart_gamep1() # This is where it's not working
+            ball2.rect.y = height / 2
+            ball2.rect.x = width / 2
+            recent_score = 1
+            #score_text = win_font.render('Player 1 Scores!', 1, object_color)
+            #score_width = width / 4
+            
+        
+                
                 
         if ball2.rect.x <= 0:
             score_2 += 1
-            # ball2.velocity[0] = 0
-            # ball2.velocity[1] = 0
-            # ball2.rect.y = height/2
-            # ball2.rect.x = width/2
+            ball2.velocity[0] = 0
+            ball2.velocity[1] = 0
+            ball2.rect.y = height/2
+            ball2.rect.x = width/2
             # if key[pygame.K_p]:
-            ball2.restart_gamep2() # This is what it was before. I made it
+            #ball2.restart_gamep2() # This is what it was before. I made it
             # reset whenever a player scored. from the ball class
+            recent_score = 2
+            #score_text = win_font.render('Player 2 Scores!', 1, object_color)
+            #score_width = 3 * width / 4
+            
         if ball2.rect.y > 590:
             ball2.velocity[1] = -ball2.velocity[1]
         if ball2.rect.y < 0:
             ball2.velocity[1] = -ball2.velocity[1]
-            
+        
+        
+       
         # Hitting the paddle.
         if pygame.sprite.collide_mask(ball2, paddle_1) or \
         pygame.sprite.collide_mask(ball2, paddle_2): 
@@ -415,6 +420,25 @@ while main_game:
         board.blit(text, (100, 10))
         text = font.render(str(score_2), 1, object_color)
         board.blit(text, (800, 10))
+        
+        if ball2.velocity[0] == 0 and ball2.velocity[1] == 0:
+           #board.blit(score_text, (score_width, height / 2))
+           if recent_score == 1:
+               score_text_1 = smallfont.render('Player 1 Scored', True, object_color)
+               board.blit(score_text_1, (width / 4, height / 2))
+               pygame.display.update()
+               if key[pygame.K_p]:
+                   ball2.restart_gamep1() # This is where it's not working
+                   recent_score = 0
+           elif recent_score == 2:
+               score_text_2 = smallfont.render('Player 2 Scored', True, \
+                                           object_color)
+               board.blit(score_text_2, ( width / 2 + 50, height / 2))
+               pygame.display.update()
+               if key[pygame.K_p]:
+                   ball2.restart_gamep2()
+                   recent_score = 0
+                        
         
         # Best of 10 mode
         if best_10_on:
