@@ -18,7 +18,7 @@ class Ball(pygame.sprite.Sprite):
         
         #Drawing the ball as a rectangle and getting starting velocity
         pygame.draw.rect(self.image, color, [0, 0, width, height])
-        self.velocity = [randint(4,8), randint(-8,8)]
+        self.velocity = [randint(4, 8), randint(-8, 8)]
         
         # Get the object with the dimensions of the image
         self.rect = self.image.get_rect()
@@ -34,12 +34,12 @@ class Ball(pygame.sprite.Sprite):
     def restart_gamep1(self):
         self.rect.x = 450
         self.rect.y = 300
-        self.velocity = [-4, randint(-3, 3)]
+        self.velocity = [randint(4, 8), randint(-3, 3)]
     
     def restart_gamep2(self):
         self.rect.x = 450
         self.rect.y = 300
-        self.velocity = [4, randint(-3, 3)]
+        self.velocity = [randint(4, 8), randint(-3, 3)]
 
 class Speed_Ball(pygame.sprite.Sprite):
     # This class makes the ball for the speed stack mode
