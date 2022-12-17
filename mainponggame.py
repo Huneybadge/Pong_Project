@@ -1,4 +1,5 @@
 import pygame 
+import random
 from paddle import Paddle
 from ball import Ball, Speed_Ball
 #from button import Button
@@ -10,6 +11,8 @@ pygame.init()
 # Defining board colors.
 bg_color = (0, 0, 0) # Black
 object_color = (255, 255, 255) #White 
+color_range = range(32, 256, 32)
+random_color = tuple(random.choice(color_range) for _ in range(3))
 text_color = (255,255,255)
 color_light = (170,170,170)
 color_dark = (100,100,100)
@@ -373,13 +376,13 @@ while main_game:
         # Establising key movements.
         key = pygame.key.get_pressed()
         if key[pygame.K_w]:
-            paddle_1.moveUp(10)
+            paddle_1.moveUp(15)
         if key[pygame.K_s]:
-            paddle_1.moveDown(10)
+            paddle_1.moveDown(15)
         if key[pygame.K_UP]:
-            paddle_2.moveUp(10)
+            paddle_2.moveUp(15)
         if key[pygame.K_DOWN]:
-            paddle_2.moveDown(10)
+            paddle_2.moveDown(15)
             
         # Game Logic.
         all_sprites1.update()
