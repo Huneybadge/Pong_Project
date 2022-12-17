@@ -1,5 +1,4 @@
 import pygame 
-import random
 from paddle import Paddle
 from ball import Ball, Speed_Ball
 #from button import Button
@@ -11,8 +10,6 @@ pygame.init()
 # Defining board colors.
 bg_color = (0, 0, 0) # Black
 object_color = (255, 255, 255) #White 
-color_range = range(32, 256, 32)
-random_color = tuple(random.choice(color_range) for _ in range(3))
 text_color = (255,255,255)
 color_light = (170,170,170)
 color_dark = (100,100,100)
@@ -118,9 +115,9 @@ while main_game:
         # Defining the ball.
         ball = Ball(object_color, 10, 10)
         ball2 = Speed_Ball(object_color, 10, 10)
-        ball.rect.x = 345
+        ball.rect.x = 300
         ball2.rect.x = 300
-        ball.rect.y = 195
+        ball.rect.y = 300
         ball2.rect.y = 300
         
         # List of sprites (game objects)
@@ -266,12 +263,14 @@ while main_game:
             ball.velocity[1] = -ball.velocity[1]
         if ball.rect.y < 0:
             ball.velocity[1] = -ball.velocity[1]
-            
+        
+        has_hit_paddle = False
         # Hitting the paddle.
         if pygame.sprite.collide_mask(ball, paddle_1) or \
         pygame.sprite.collide_mask(ball, paddle_2): 
             ball.bounce()
-            
+
+           
         # Clearing screen to background color.
         board.fill(bg_color)
         
