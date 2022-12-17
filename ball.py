@@ -1,7 +1,14 @@
 import pygame 
-from random import randint 
+import random
+from random import randint
+
 
 bg_color = (0,0,0)
+blue = (0, 0, 255) # Initialize blue
+green = (0, 255, 0) # Initialize green
+red = (255, 0, 0) # Initialize red
+yellow = (255, 255, 0) # Initialize yellow
+color_list = blue, green, red, yellow
 
 class Ball(pygame.sprite.Sprite):
     # This class makes the ball
@@ -30,6 +37,8 @@ class Ball(pygame.sprite.Sprite):
     def bounce(self):
         self.velocity[0] = -self.velocity[0]
         self.velocity[1] = randint(-8, 8)
+        pygame.draw.rect(self.image, (random.choice(color_list)), \
+                         [0, 0, 10, 10]) # Sets a new color of the ball
     
     def restart_gamep1(self):
         self.rect.x = 450
@@ -40,6 +49,10 @@ class Ball(pygame.sprite.Sprite):
         self.rect.x = 450
         self.rect.y = 300
         self.velocity = [randint(4, 8), randint(-3, 3)]
+    
+    def set_color(self, new_color):
+        # Change ball color to a new color
+        self.color = new_color
 
 class Speed_Ball(pygame.sprite.Sprite):
     # This class makes the ball for the speed stack mode
@@ -67,9 +80,9 @@ class Speed_Ball(pygame.sprite.Sprite):
     def bounce(self):
         self.velocity[0] = -self.velocity[0]
         if self.velocity[0] < 0:
-            self.velocity[0] = self.velocity[0] - 4
+            self.velocity[0] = self.velocity[0] - 2
         elif self.velocity[0] > 0:
-            self.velocity[0] = self.velocity[0] + 4
+            self.velocity[0] = self.velocity[0] + 2
         self.velocity[1] = randint(-8, 8)
     
     def restart_gamep1(self):
