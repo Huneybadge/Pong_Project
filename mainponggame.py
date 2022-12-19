@@ -1,11 +1,24 @@
+"""
+
+Software Carpentry Final
+EN.540.635
+
+
+"""
+
+"""
+This code is to  make a Pong game with two players where the paddles are controlled
+by the arrow keys and the wsda keys. There are three different game modes for 
+players to choose from.
+
+"""
+# Importing the functions
 import pygame 
 from paddle import Paddle
 from ball import Ball, Speed_Ball
-#from button import Button
 
-
+# Initializing pygame
 pygame.init()
-
 
 # Defining board colors.
 bg_color = (0, 0, 0) # Black
@@ -33,16 +46,38 @@ best_10_on = False
 speed_stack_on = False
 
 def button(mouse, x1, y1, x2, y2, length, height):
+    """
+    Function that makes the button rectangle.
+    
+    Parameters
+    ----------
+    mouse :  tuple
+        Location of the mouse.
+    
+    x1 : int
+        Left x of the button.
+    
+    x2 : int
+        Right x of the button.
+        
+    y1 : int
+        Top y of the button.
+        
+    y2 : int
+        Bottom y of the button.
+    
+    height : int
+        Height of the button.
+    
+    length : int
+        length of the button.
+    """
     if x1 <= mouse[0] <= x2 and y1 <= mouse[1] <= y2:
-              pygame.draw.rect(board,color_light, [x1, y1, length, height])
+        pygame.draw.rect(board,color_light, [x1, y1, length, height])
     else:
         pygame.draw.rect(board,color_dark,[x1, y1, length, height])
-    
-
-#Adding button
-#button_1 = Button("Start", (450, 300), font=30, bg="navy", feedback="start game")
-while main_game:
-    
+   
+while main_game: # While the game is on
     while intro:
         # Storing mouse movemnt for intro.
         mouse = pygame.mouse.get_pos()
@@ -124,7 +159,6 @@ while main_game:
         all_sprites = pygame.sprite.Group()
         all_sprites1 = pygame.sprite.Group()
 
-        
         # Adding paddles
         all_sprites.add(paddle_1)
         all_sprites.add(paddle_2)
@@ -132,7 +166,6 @@ while main_game:
         all_sprites1.add(paddle_1)
         all_sprites1.add(paddle_2)
         all_sprites1.add(ball2)
-
         
         # Events for the game.
         for event in pygame.event.get():
@@ -181,14 +214,13 @@ while main_game:
         mode_font = pygame.font.SysFont('Corbel', 35)  # Selecting the font.
         
         infinite_game_text = mode_font.render('Infinite mode', True, text_color)
-        board.blit(infinite_game_text, (width/2 - 90, height/2 - 90))
+        board.blit(infinite_game_text, (width/2 - 80, height/2 - 90))
         
         best_of_ten_text = mode_font.render('Best of 10', True, text_color)
-        board.blit(best_of_ten_text, (width/2 - 70, height/2 - 30))
+        board.blit(best_of_ten_text, (width/2 - 60, height/2 - 30))
         
         speed_stack_text = mode_font.render('Speed stack', True, text_color)
-        board.blit(speed_stack_text, (width/2 - 85, height/2 + 30))
-        
+        board.blit(speed_stack_text, (width/2 - 75, height/2 + 30))
         
         # Updating the display.
         pygame.display.update()
@@ -244,8 +276,8 @@ while main_game:
             # When the ball hits the wall rest.
             ball.velocity[0] = 0
             ball.velocity[1] = 0
-            ball.rect.y = height / 2
-            ball.rect.x = width / 2
+            ball.rect.y = height / 2 - 5
+            ball.rect.x = width / 2 - 5
             # Keeping track of who scored last.
             recent_score = 1
             
@@ -254,8 +286,8 @@ while main_game:
             # When the ball hits the wall rest.
             ball.velocity[0] = 0
             ball.velocity[1] = 0
-            ball.rect.y = height/2
-            ball.rect.x = width/2
+            ball.rect.y = height / 2 - 5
+            ball.rect.x = width / 2 - 5
             # Keeping track of who scored last.
             recent_score = 2
             
@@ -270,7 +302,6 @@ while main_game:
         pygame.sprite.collide_mask(ball, paddle_2): 
             ball.bounce()
 
-           
         # Clearing screen to background color.
         board.fill(bg_color)
         
@@ -278,14 +309,14 @@ while main_game:
         smallfont = pygame.font.SysFont('Corbel', 35)
         
         # Making quit button.
-        button(mouse, width/2 + 20, 0, width/2+150, 40, 140, 40)
+        button(mouse, width / 2 + 20, 0, width / 2 + 150, 40, 140, 40)
         quit_button_text = smallfont.render('Quit' , True, text_color)
         board.blit(quit_button_text, (width/2 + 60, 10))
         
         # Making change game mode button.
-        button(mouse, width/2 - 210, 0, width/2 - 10, 40, 200, 40)
+        button(mouse, width / 2 - 210, 0, width / 2 - 10, 40, 200, 40)
         change_mode_text = smallfont.render('Change Mode' , True, text_color)
-        board.blit(change_mode_text, (width/2 - 210, 10))
+        board.blit(change_mode_text, (width / 2 - 200, 10))
         
         # Drawing the net or half court.
         pygame.draw.line(board, object_color, [450, 0], [450, 600], 5)
@@ -303,15 +334,21 @@ while main_game:
         # Ball in reset mode due to scoring.
         if ball.velocity[0] == 0 and ball.velocity[1] == 0:
            if recent_score == 1: # If player 1 scores.
+               # Creating the player scored message.
                score_text_1 = smallfont.render('Player 1 Scored', True, object_color)
                board.blit(score_text_1, (width / 4, height / 2))
+               pause_text = smallfont.render('Press P to Play', True, object_color)
+               board.blit(pause_text, (width / 4, 3 * height / 4))
                pygame.display.update()
                if key[pygame.K_p]: # Restarting the ball with 'p' key.
                    ball.restart_gamep1() # This is where it's not working
                    recent_score = 0
            elif recent_score == 2: # If player 2 scores.
+               # Creating the player scored message.
                score_text_2 = smallfont.render('Player 2 Scored', True, object_color)
                board.blit(score_text_2, ( width / 2 + 50, height / 2))
+               pause_text = smallfont.render('Press P to Play', True, object_color)
+               board.blit(pause_text, (width / 2 + 50, 3 * height / 4))
                pygame.display.update()
                if key[pygame.K_p]:  # Restarting the ball with 'p' key.
                    ball.restart_gamep2()
@@ -322,8 +359,8 @@ while main_game:
             if score_1 == 10 or score_2 == 10:
                 ball.velocity[0] = 0
                 ball.velocity[1] = 0
-                ball.rect.y = height / 2
-                ball.rect.x = width / 2
+                ball.rect.y = height / 2 - 5
+                ball.rect.x = width / 2 - 5
                 win_font = pygame.font.SysFont('Corbel', 35)
                 pygame.draw.rect(board,color_light, [width / 2 - 100, height / 2 - 20, 200, 40])
                 
@@ -392,8 +429,8 @@ while main_game:
             # When the ball hits the wall rest.
             ball2.velocity[0] = 0
             ball2.velocity[1] = 0
-            ball2.rect.y = height / 2
-            ball2.rect.x = width / 2
+            ball2.rect.y = height / 2 - 5
+            ball2.rect.x = width / 2 - 5
             # Keeping track of who scored last.
             recent_score = 1
             
@@ -402,8 +439,8 @@ while main_game:
             # When the ball hits the wall rest.
             ball2.velocity[0] = 0
             ball2.velocity[1] = 0
-            ball2.rect.y = height/2
-            ball2.rect.x = width/2
+            ball2.rect.y = height / 2 - 5
+            ball2.rect.x = width / 2 - 5
             # Keeping track of who scored last.
             recent_score = 2
             
@@ -431,7 +468,7 @@ while main_game:
         # Making change game mode button.
         button(mouse, width/2 - 210, 0, width/2 - 10, 40, 200, 40)
         change_mode_text = smallfont.render('Change Mode' , True, text_color)
-        board.blit(change_mode_text, (width/2 - 210, 10))
+        board.blit(change_mode_text, (width / 2 - 200, 10))
         
         # Drawing the net or half court.
         pygame.draw.line(board, object_color, [450, 0], [450, 600], 5)
@@ -449,15 +486,21 @@ while main_game:
         # Ball in reset mode due to scoring.
         if ball2.velocity[0] == 0 and ball2.velocity[1] == 0:
            if recent_score == 1: # If player 1 scores.
+               # Creating the player scored message.
                score_text_1 = smallfont.render('Player 1 Scored', True, object_color)
                board.blit(score_text_1, (width / 4, height / 2))
+               pause_text = smallfont.render('Press P to Play', True, object_color)
+               board.blit(pause_text, (width / 4, 3 * height / 4))
                pygame.display.update()
                if key[pygame.K_p]: # Restarting the ball with 'p' key.
                    ball2.restart_gamep1() # This is where it's not working
                    recent_score = 0
            elif recent_score == 2: # If player 2 scores.
+               # Creating the player scored message.
                score_text_2 = smallfont.render('Player 2 Scored', True, object_color)
                board.blit(score_text_2, ( width / 2 + 50, height / 2))
+               pause_text = smallfont.render('Press P to Play', True, object_color)
+               board.blit(pause_text, (width / 2 + 50, 3 * height / 4))
                pygame.display.update()
                if key[pygame.K_p]:  # Restarting the ball with 'p' key.
                    ball2.restart_gamep2()
@@ -468,8 +511,8 @@ while main_game:
             if score_1 == 10 or score_2 == 10:
                 ball2.velocity[0] = 0
                 ball2.velocity[1] = 0
-                ball2.rect.y = height/2
-                ball2.rect.x = width/2
+                ball2.rect.y = height / 2 - 5
+                ball2.rect.x = width / 2 - 5
                 win_font = pygame.font.SysFont('Corbel', 35)
                 pygame.draw.rect(board,color_light, [width/2 - 100, \
                                                      height/2 - 20, 200, 40])
