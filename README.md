@@ -1,8 +1,9 @@
 # sc_final_project
-This readme file contains the details of the project as well as the instructions on how to run the game.
+This readme file contains the details of the project as well as the instructions on how to run the game. 
 
 This project contains the files that will run the classic game of 2D Pong. Pong is a multiplayer game where a player controls a paddle that is capable of hitting a ball air-hockey style. A player scores when the ball hits the enemy's goal line. Our team has modified the traditional game to add additional rules for more fun! As general instructions:
 
+To start the game download all files and ensure they are in the same folder. Run the file called mainponggame.py to start the game.
 Paddles: Use either the WS or "UP"/"DOWN" keys to move the paddles
 When a point is scored: Press 'P' to restart the game
 Press 'X' at any time to quit the entire game
